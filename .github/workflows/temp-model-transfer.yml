@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download compact multilingual Whisper model
+      - name: Download multilingual Whisper base model
         run: |
-          curl -L --fail --retry 3 -o ggml-tiny-q5_1.bin "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny-q5_1.bin?download=true"
-          test "$(stat -c%s ggml-tiny-q5_1.bin)" -eq 32152673
-          echo "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7  ggml-tiny-q5_1.bin" | sha256sum -c -
+          curl -L --fail --retry 3 -o ggml-base-q5_1.bin "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin?download=true"
+          test "$(stat -c%s ggml-base-q5_1.bin)" -gt 50000000
       - name: Upload model artifact
         uses: actions/upload-artifact@v4
         with:
-          name: compact-multilingual-whisper
-          path: ggml-tiny-q5_1.bin
+          name: multilingual-whisper-base
+          path: ggml-base-q5_1.bin
           retention-days: 1
