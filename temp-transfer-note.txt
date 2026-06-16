@@ -1,0 +1,1 @@
+Temporary branch used only to transfer a compact multilingual speech model for transcription. Do not merge.

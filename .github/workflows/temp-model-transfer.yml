@@ -1,0 +1,25 @@
+name: Temporary model transfer
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download multilingual Whisper base model
+        run: |
+          curl -L --fail --retry 3 -o ggml-base-q5_1.bin "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin?download=true"
+          test "$(stat -c%s ggml-base-q5_1.bin)" -gt 50000000
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: multilingual-whisper-base
+          path: ggml-base-q5_1.bin
+          retention-days: 1
